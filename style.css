@@ -1,0 +1,523 @@
+/* TEMEL AYARLAR VE FONT */
+body { font-family: 'Share Tech Mono', monospace; overflow-x: hidden; }
+.font-orbitron { font-family: 'Orbitron', sans-serif; }
+.hover-red:hover { color: #dc3545 !important; transition: 0.3s; }
+.btn-xs { padding: 2px 8px; font-size: 0.7rem; font-family: 'Share Tech Mono', monospace; }
+.MALİYET { letter-spacing: 2px; }
+
+/* JARVIS HUD GÖRSEL KÖŞELER VE TARAMA */
+.jarvis-hud-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1005; pointer-events: none; }
+.scan-line { width: 100%; height: 2px; background: rgba(220, 53, 69, 0.1); position: absolute; animation: scan 4s linear infinite; }
+.corner { position: absolute; width: 20px; height: 20px; border: 2px solid rgba(220, 53, 69, 0.4); }
+.corner.tl { top: 70px; left: 10px; border-right: 0; border-bottom: 0; }
+.corner.tr { top: 70px; right: 10px; border-left: 0; border-bottom: 0; }
+.corner.bl { bottom: 10px; left: 10px; border-right: 0; border-top: 0; }
+.corner.br { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+
+@keyframes scan { from { top: 70px; } to { top: 100%; } }
+
+/* HERO BÖLÜMÜ VE SAĞ-TIK VARYANTLARI (BAŞTAN YAPILDI - image_27.png) */
+.right-click-zone { position: relative; overflow: hidden; }
+
+.hero-section { height: 90vh; position: relative; display: flex; align-items: center; justify-content: center; }
+
+.variant-bg {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover; background-position: center; background-attachment: fixed;
+    opacity: 0; transition: opacity 0.6s ease-in-out; z-index: -2;
+}
+
+.variant-bg.active { opacity: 1; }
+
+/* Varyant Resim Dosya Yolları (!!! Dosya isimlerini klasöründekiyle değiştir !!!) */
+#variant-bg-1 { background-image: url('img1.png'); } /* Varsayılan */
+#variant-bg-2 { background-image: url('img2.png'); } /* Sağ tık 1 */
+#variant-bg-3 { background-image: url('img3.png'); } /* Sağ tık 2 */
+
+.hero-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(0deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.8) 100%);
+    z-index: 1;
+}
+
+.terminal-box { border: 1px solid rgba(220, 53, 69, 0.5) !important; box-shadow: 0 0 20px rgba(220, 53, 69, 0.2); }
+
+.glitch-text { text-shadow: 0 0 10px rgba(255,255,255,0.7), 2px 2px 0px rgba(220,53,69,0.7); letter-spacing: 5px; }
+
+/* CANLI MESAJLAŞMA VE BİLDİRİMLER */
+.Bildirim-Alani div { transition: all 0.3s ease; border-left: 3px solid #dc3545; background: rgba(0, 0, 0, 0.8); }
+.Bildirim-Alani div.fade-out { opacity: 0; transform: translateX(-100%); }
+
+.blink { animation: blink-animation 1s steps(5, start) infinite; }
+@keyframes blink-animation { to { visibility: hidden; } 
+}
+/* Ana Konteynır */
+.hero-slider-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background: #000;
+}
+
+/* Kaydırma Hattı */
+.slider-track {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.slide {
+    min-width: 100%;
+    height: 100%;
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.7); /* Resim artık daha aydınlık (0.7) */
+}
+
+/* Minimal Yazı Katmanı */
+.minimal-overlay {
+    position: absolute;
+    bottom: 50px; /* Yazıyı aşağıya, resmin önüne çekiyoruz */
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 10;
+    width: 100%;
+}
+
+.hero-title {
+    font-family: 'Orbitron', sans-serif;
+    color: rgb(200, 200, 200);
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 10px;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.nav-hint {
+    font-family: 'Share Tech Mono', monospace;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+}
+
+/* İlerleme Çubuğu Tasarımı */
+.progress-container {
+    width: 300px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0 auto;
+    position: relative;
+}
+
+.progress-bar {
+    width: 33.33%; /* Başlangıçta ilk resim kadar dolu */
+    height: 100%;
+    background: #00ff88; /* Canlı yeşil tonu */
+    box-shadow: 0 0 10px #00ff88;
+    transition: width 0.5s ease;
+}
+/* Groot Terminal Ana Alanı */
+/* Groot Terminal Ana Alanı - Griyi Yok Eden Koyu Yeşil Ton */
+.groot-terminal {
+    /* Griyi tamamen öldürür ve koyu yeşil/siyah geçişi yapar */
+    background: linear-gradient(180deg, #051405 0%, #000000 100%) !important;
+    
+    /* Neon yeşil bir parlama ekler (isteğe bağlı) */
+    box-shadow: inset 0 0 30px rgba(0, 255, 136, 0.05);
+    
+    border: 1px solid #ff4444 !important; /* Mevcut kırmızı çerçeveyi korur */
+    backdrop-filter: blur(10px);
+}
+
+/* Günlük maddelerinin (kutucukların) arka planını biraz daha belirgin yapalım */
+.diary-item {
+    background: rgba(0, 40, 0, 0.2) !important; /* Hafif transparan yeşil */
+    border: 1px solid rgba(220, 53, 69, 0.3) !important; /* Kırmızımsı ince çerçeve */
+    transition: 0.3s;
+}
+
+.diary-item:hover {
+    background: rgba(0, 255, 136, 0.05) !important;
+    border-color: #dc3545 !important;
+    transform: translateY(-3px);
+}
+/* Günlük Kartları */
+.diary-card {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    padding: 20px;
+    height: 100%;
+    transition: all 0.3s ease;
+    border-left: 4px solid #00ff88; /* Sol kenarda yeşil vurgu */
+}
+
+.diary-card:hover {
+    background: rgba(0, 255, 136, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+}
+
+/* Kırmızı Vurgulu Kart (Stark Notu İçin) */
+.diary-card.highlight {
+    border-left: 4px solid #ff4444;
+    border-color: rgba(255, 68, 68, 0.3);
+}
+
+/* Başlıklar */
+.diary-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+    color: #00ff88;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+/* Çeviri Kutusu */
+.groot-translator {
+    background: linear-gradient(90deg, rgba(0,255,136,0.05) 0%, rgba(0,0,0,0.8) 100%);
+    border-radius: 4px;
+}
+
+/* Animasyon: Yanıp Sönen İkon */
+.blink {
+    animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+    0% { opacity: 1; text-shadow: 0 0 5px #00ff88; }
+    50% { opacity: 0.5; text-shadow: 0 0 0px #00ff88; }
+    100% { opacity: 1; text-shadow: 0 0 5px #00ff88; }
+}
+/* --- TEMA: S.H.I.E.L.D. (Varsayılan - Kırmızı/Siyah) --- */
+:root {
+    --primary: #dc3545; /* Stark Kırmızısı */
+    --bg-main: #000000;
+    --card-bg: rgba(20, 20, 20, 0.9);
+    --text-color: #ffffff;
+    --border-color: rgba(220, 53, 69, 0.5);
+}
+
+/* --- TEMA: STARK INDUSTRIES (Mavi/Teknolojik) --- */
+body.stark-theme {
+    --primary: #00d4ff; /* Ark Reaktörü Mavisi */
+    --bg-main: #050a15; /* Koyu Lacivert/Siyah */
+    --card-bg: rgba(10, 20, 35, 0.95);
+    --text-color: #e0f7ff;
+    --border-color: rgba(0, 212, 255, 0.4);
+}
+
+/* Uygulama */
+body {
+    background-color: var(--bg-main) !important;
+    color: var(--text-color) !important;
+    transition: all 0.5s ease;
+}
+
+.stark-card {
+    background: var(--card-bg) !important;
+    border: 1px solid var(--border-color) !important;
+}
+
+.navbar {
+    border-bottom: 2px solid var(--primary) !important;
+}
+
+.text-danger { color: var(--primary) !important; }
+.btn-danger { background-color: var(--primary) !important; border-color: var(--primary) !important; }
+
+/* Groot Bölümü Stark Modunda Mavi Işıma Yapsın */
+body.stark-theme .groot-terminal {
+    background: linear-gradient(180deg, #050f1a 0%, #000000 100%) !important;
+    border-color: var(--primary) !important;
+}
+/* Kart Resim Ayarları */
+.tree-img-container {
+    position: relative;
+    border-bottom: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.tree-img-container img {
+    transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+/* Üzerine gelince resim zoom yapsın ve parlasın */
+.stark-card:hover .tree-img-container img {
+    transform: scale(1.1);
+    filter: brightness(1.1) contrast(1.1);
+}
+
+/* Resim yüklenene kadar gri bir doku görünsün */
+.tree-img-container::before {
+    content: "SCANNING...";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.2);
+    z-index: 0;
+}
+/* Soldan Açılan Panel (Sidebar) Özel Tasarımı */
+/* Bootstrap'in bazen sağdan başlattığı animasyonu sola zorla */
+#shieldSidebar {
+    left: 0 !important;
+    right: auto !important;
+    transform: translateX(-100%); /* Kapalıyken solda gizli */
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+#shieldSidebar.show {
+    transform: translateX(0) !important; /* Açıldığında tam sola yerleşir */
+}
+/* Arka plandaki karartmanın (backdrop) yerini düzeltme */
+.offcanvas-backdrop.show {
+    opacity: 0.5;
+}
+
+#shieldSidebar .offcanvas-body a {
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+#shieldSidebar .offcanvas-body a:hover {
+    background: rgba(220, 53, 69, 0.1);
+    padding-left: 15px !important; /* Hafif sağa kayma efekti */
+    color: #ff4444 !important;
+}
+
+/* 3 Çizgi Butonu Animasyonu (İsteğe bağlı) */
+.fa-bars {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+/* Sidebar'ı Sol Tarafa Zorla */
+#shieldSidebar.offcanvas {
+    left: 0 !important;
+    right: auto !important;
+    transform: translateX(-100%); /* Başlangıçta gizli (solda) */
+}
+
+#shieldSidebar.offcanvas.show {
+    transform: translateX(0); /* Açıldığında görünüyor */
+}
+
+/* Sağdaki gölgeyi/çizgiyi sola al */
+.offcanvas-start {
+    border-right: 2px solid #dc3545 !important;
+    border-left: none !important;
+}
+.card-item {
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform, opacity;
+}
+
+/* Şıklatmadan sonra kalan kartlara hafif bir sarsıntı efekti */
+.shake-animation {
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    40% { transform: translate(3px, 2px) rotate(-1deg); }
+    100% { transform: translate(1px, -1px) rotate(0deg); }
+}
+.stark-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stark-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 20px rgba(220, 53, 69, 0.4); /* Kırmızı parlama */
+}
+
+/* Stark modundayken (Mavi) parlama mavi olsun */
+body.stark-theme .stark-card:hover {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+}
+#contact input:focus, #contact textarea:focus {
+    background: rgba(220, 53, 69, 0.05) !important;
+    border-color: #dc3545 !important;
+    color: white !important;
+    box-shadow: 0 0 10px rgba(220, 53, 69, 0.2) !important;
+}
+
+/* Harita filtresini Stark modunda maviye çekmek istersen */
+body.stark-theme #contact iframe {
+    filter: grayscale(1) invert(0.9) sepia(1) hue-rotate(180deg) !important;
+}
+#loginModal .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 12px;
+}
+
+#loginModal .input-group-text {
+    border-right: none;
+}
+
+#loginModal .form-control {
+    border-left: none;
+}
+
+#loginModal .form-control:focus {
+    background: rgba(220, 53, 69, 0.05);
+}
+.btn-shake {
+    animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+.jarvis-terminal {
+    background-color: #000 !important;
+    color: #00d4ff !important; /* Klasik Jarvis mavisi */
+    font-family: 'Courier New', Courier, monospace;
+    overflow-x: hidden;
+}
+
+/* Tıklama engellerini kaldırmak için */
+.jarvis-terminal .modal {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+}
+
+/* Giriş Butonunun Jarvis Stilinde Parlaması */
+.jarvis-btn {
+    border: 1px solid #00d4ff !important;
+    background: transparent !important;
+    color: #00d4ff !important;
+    transition: all 0.3s;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.2);
+}
+
+.jarvis-btn:hover {
+    background: #00d4ff !important;
+    color: #000 !important;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+}
+/* Her şeyi görünür yapmaya zorla */
+/* Her şeyi görünür yapmaya zorla */
+.modal-content {
+    background: rgba(0, 0, 0, 0.9) !important; /* Daha koyu ve saydam */
+    border: 2px solid #dc3545 !important; /* Kırmızı S.H.I.E.L.D. sınırı */
+    box-shadow: 0 0 30px rgba(220, 53, 69, 0.5); /* Kırmızı parlama efekti */
+    min-height: 400px; /* Minimum yükseklik vererek küçük kalmasını engelleriz */
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* İçeriği dikeyde ortalar */
+}
+.social-icon {
+    color: #6c757d; /* Varsayılan gri renk */
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+}
+
+/* Üzerine gelince S.H.I.E.L.D. Mavisi/Kırmızısı parlaması */
+.social-icon:hover {
+    color: #00d4ff; /* Neon mavi */
+    text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff;
+    transform: translateY(-3px);
+}
+
+/* İkonlara küçük bir "tarama hattı" efekti verelim */
+.social-access-layer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 15px;
+}
+/* STARK-VISION TARGETING FRAME */
+.stark-card {
+    position: relative; /* Köşe çizgilerinin hizalanması için şart */
+    transition: all 0.5s ease;
+}
+
+/* Kartın üzerine gelindiğinde (Hover) */
+.stark-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+    border-color: #ff0000 !important;
+}
+
+/* Köşe Çizgileri Ortak Özellikler */
+.stark-card::before, .stark-card::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 0 solid #00d4ff; /* Başlangıçta Stark Mavisi */
+    transition: all 0.4s ease;
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Sol Üst ve Sağ Alt Köşeler */
+.stark-card::before {
+    top: -2px; left: -2px;
+}
+
+/* Sağ Üst ve Sol Alt Köşeler */
+.stark-card::after {
+    bottom: -2px; right: -2px;
+}
+
+/* Hover anında çizgileri uzat ve rengi kırmızıya çevir (Iron Man Modu) */
+.stark-card:hover::before {
+    width: 40px;
+    height: 40px;
+    border-top-width: 3px;
+    border-left-width: 3px;
+    border-color: #ff0000;
+    filter: drop-shadow(0 0 5px #ff0000);
+}
+
+.stark-card:hover::after {
+    width: 40px;
+    height: 40px;
+    border-bottom-width: 3px;
+    border-right-width: 3px;
+    border-color: #ff0000;
+    filter: drop-shadow(0 0 5px #ff0000);
+}
+
+/* Tarama Yazısı Animasyonu */
+.scan-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ff0000;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 11;
+    text-shadow: 0 0 10px #ff0000;
+}
+
+.stark-card:hover .scan-text {
+    animation: stark-blink 1s infinite;
+}
+
+@keyframes stark-blink {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}

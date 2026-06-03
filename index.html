@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.H.I.E.L.D. | Marvel Garden Terminal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-black text-white jarvis-terminal">
+
+    <div class="jarvis-hud-overlay pointer-events-none">
+        <div class="scan-line"></div>
+        <div class="corner tl"></div><div class="corner tr"></div>
+        <div class="corner bl"></div><div class="corner br"></div>
+    </div>
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top border-bottom border-danger bg-black px-3 py-2 system-status">
+        <div class="container-fluid font-mono">
+            <div class="d-flex align-items-center gap-2 brand font-orbitron h5 mb-0">
+                <a href="#ana-sayfa" class="text-decoration-none d-flex align-items-center gap-1">
+                    <span class="text-white">MARVEL</span> 
+                    <span class="text-danger">GARDENS</span>
+                </a>
+                <div class="nav-links d-flex gap-4 ms-4 small align-items-center text-secondary">
+                    <a href="#ana-sayfa" class="text-secondary text-decoration-none hover-red">Ana Karargah</a>
+                    <a href="#inventory" class="text-secondary text-decoration-none hover-red">Ağaç Koleksiyonu</a>
+                    <a href="#groot-rehber" class="text-secondary text-decoration-none hover-red hover-groot">Groot'un Köşesi</a>
+                    <a href="#reviews" class="text-secondary text-decoration-none hover-red hover-groot">Ajan Yorumları</a>
+                    <a href="#contact" class="text-secondary text-decoration-none hover-red hover-groot">Sinyal Gönder(İLETİŞİM)</a>
+                </div>
+            </div>
+            
+            <div class="system-data d-flex gap-3 align-items-center small text-secondary">
+                <button class="btn btn-outline-danger btn-xs" onclick="thanosSnap()">THANOS ŞIKLATMASI</button>
+                <div class="status-box d-none d-sm-block">SİSTEM: <span class="text-success blink">AKTİF</span></div>
+                <button class="btn btn-outline-light btn-xs" onclick="toggleMode()">MOD DEĞİŞTİR</button>
+                <div class="text-info">STOK: <span id="stock-count">500</span></div>
+            </div>
+        </div>
+        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#loginModal">
+            <i class="fas fa-user-shield me-2"></i>
+            <span id="nav-login-text">Giriş Yap</span>
+        </button>
+            <!-- SİDEBAR BUTONU -->
+            <button class="btn text-white p-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#shieldSidebar">
+                <i class="fas fa-bars fa-lg"></i>
+        </button>
+</nav>
+    <div class="progress fixed-top" style="height: 5px; margin-top: 62px; background: #000; border-radius: 0; z-index: 1020;">
+        <div id="stock-progress" class="progress-bar bg-danger" role="progressbar" style="width: 100%"></div>
+    </div>
+
+    <div class="hud-box top-right font-mono text-end position-fixed p-3 d-flex flex-column align-items-end" style="top: 85px; right: 20px; z-index: 1010; background: rgba(0,0,0,0.5); border-radius: 8px;">
+        <div class="small text-secondary text-uppercase">Enerji Seviyesi: <span id="total-power" class="text-danger">0</span> GW</div>
+        <div class="h5 mb-2 MALİYET">MALİYET: <span id="total-price" class="text-white">0</span> ₺</div>
+        
+        <div class="cart-trigger" onclick="toggleCartPanel()" style="cursor: pointer;">
+            <div class="cart-icon-wrapper position-relative d-inline-block">
+                <i class="fas fa-shopping-basket fa-2x text-success"></i>
+                <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.7rem;">0</span>
+            </div>
+            <div class="small mt-1 text-white font-orbitron" style="font-size: 10px; letter-spacing: 1px;">ENVANTERİ AÇ</div>
+        </div>
+    </div>
+
+    <div id="ana-sayfa" class="right-click-zone" oncontextmenu="nextVariant(event)">
+        <div class="hero-section text-center position-relative d-flex align-items-center justify-content-center">
+            
+            <div class="variant-bg active" id="variant-bg-1"></div>
+            <div class="variant-bg" id="variant-bg-2"></div>
+            <div class="variant-bg" id="variant-bg-3"></div>
+            
+            <div class="hero-overlay"></div> <div class="container hero-content position-relative text-center" style="z-index: 5;">
+                <div class="terminal-box p-5 border border-danger rounded-3" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);">
+                    <h1 class="display-1 fw-bold font-orbitron text-white text-uppercase glitch-text">WARNING ENGINEER YOUR EVREN</h1>
+                    <div class="h5 font-mono text-danger mb-2">STARK INDUSTRIES BIOLOGICAL SPECIMEN TERMINAL // SECURITY CLEARANCE: LEVEL 7</div>
+                    
+                    <div class="live-message-area font-mono text-start p-3 bg-black border border-secondary mb-4 small" style="max-height: 120px; overflow-y: auto;">
+                        <div class="text-success blink">> Sistem Mesajı: Operasyonel Varyant Yüklendi. [Variant: ${currentVariant}]</div>
+                        <div class="text-info">> Bildirim: Right-Click Varyant Geçiş Protokolü AKTİF.</div>
+                    </div>
+                    
+                    <p class="lead font-mono opacity-75">Stark Industries Güvencesiyle Genetiği Güçlendirilmiş Fidanlar ve Organik Zırh Protokolleri</p>
+                    <div class="mt-4">
+                        <a href="#inventory" class="btn btn-danger btn-lg px-5 font-orbitron text-uppercase shadow-lg">Envanteri Tara</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section id="hero-slider" class="hero-slider-container">
+    <div class="slider-track" id="sliderTrack">
+        <div class="slide"><img src="resim_adi2.jpg.png" alt="Variant 1"></div>
+        <div class="slide"><img src="img2.png" alt="Variant 2"></div>
+        <div class="slide"><img src="img3.png" alt="Variant 3"></div>
+        <div class="slide"><img src="resim_adi.jpg.png" alt="Variant 2"></div>
+        <div class="slide"><img src="img1.png" alt="Variant 3"></div>
+    </div>
+
+    <div class="minimal-overlay">
+        <h1 class="hero-title">EVRENİ YEŞİLLENDİRİN</h1>
+        
+        <div class="nav-hint">SAĞ TIKLA: VARYANT DEĞİŞTİR</div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="sliderProgress"></div>
+        </div>
+    </div>
+</section>
+    
+    <section id="inventory" class="container py-5">
+        <h2 class="text-center mb-5 font-orbitron border-bottom border-danger pb-2 text-white">SİSTEM TARAMASI: GENETİK ENVANTER</h2>
+        <div id="card-container" class="row g-4">
+            </div>
+    </section>
+    <section id="reviews" class="container py-5">
+    <h2 class="text-center mb-5 font-orbitron text-white">
+        <span class="text-danger">●</span> MÜŞTERİ GERİ BİLDİRİMLERİ <span class="text-danger">●</span>
+    </h2>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card bg-black border-secondary p-3 h-100 stark-card">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle bg-danger me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-user-secret text-white"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 font-orbitron">Ajan Phil</h6>
+                        <small class="text-secondary">S.H.I.E.L.D. Saha Operatörü</small>
+                    </div>
+                </div>
+                <p class="small font-mono italic">"Büro bahçesi için aldığımız Vibranyum Söğüdü inanılmaz! Loki'nin asası bile tek bir yaprağını dökemedi. Kesinlikle tavsiye ederim."</p>
+                <div class="text-warning small">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-black border-secondary p-3 h-100 stark-card">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle bg-info me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-robot text-white"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 font-orbitron">Pepper P.</h6>
+                        <small class="text-secondary">Stark Ind. CEO</small>
+                    </div>
+                </div>
+                <p class="small font-mono">"Tony'nin laboratuvarına biraz renk katmak için Groot Bonsai aldık. Karbon emilimi o kadar yüksek ki laboratuvar havası temizlendi. Harika bir mühendislik."</p>
+                <div class="text-warning small">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-black border-secondary p-3 h-100 stark-card">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rounded-circle bg-success me-3" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-crown text-white"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 font-orbitron">Kral T'Challa</h6>
+                        <small class="text-secondary">Wakanda Diplomatı</small>
+                    </div>
+                </div>
+                <p class="small font-mono">"Wakanda'nın dışındaki bahçemize Kuantum Çamı ektik. Bitki dokusu Vibranyum ile o kadar uyumlu ki, neredeyse kendiliğinden zırh oluşturuyor."</p>
+                <div class="text-warning small">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <section id="contact" class="container py-5 border-top border-secondary mt-5">
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <h3 class="font-orbitron text-danger mb-4">SİNYAL GÖNDER</h3>
+            <div class="card bg-black border-secondary p-4 stark-card">
+                <form id="contact-form">
+                    <div class="mb-3">
+                        <label class="font-mono small text-secondary">KULLANICI ADI / AJAN KODU</label>
+                        <input type="text" class="form-control bg-transparent text-white border-secondary shadow-none" placeholder="Örn: Agent_007">
+                    </div>
+                    <div class="mb-3">
+                        <label class="font-mono small text-secondary">E-POSTA (SECURE_MAIL)</label>
+                        <input type="email" class="form-control bg-transparent text-white border-secondary shadow-none" placeholder="stark@industries.com">
+                    </div>
+                    <div class="mb-3">
+                        <label class="font-mono small text-secondary">MESAJ ŞİFRELEME</label>
+                        <textarea class="form-control bg-transparent text-white border-secondary shadow-none" rows="4" placeholder="Mesajınızı buraya yazın..."></textarea>
+                    </div>
+                    <button type="button" class="btn btn-outline-danger w-100 font-orbitron py-2" onclick="sendSignal()">
+                        <i class="fas fa-paper-plane me-2"></i> VERİYİ İLET
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <h3 class="font-orbitron text-white mb-4">LOKASYON</h3>
+            <div class="card bg-black border-secondary h-100 stark-card overflow-hidden" style="min-height: 350px;">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.617540867615!2d-73.985428!3d40.748441!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2str!4v1620000000000!5m2!1sen!2str" 
+                    width="100%" height="250" style="border:0; filter: grayscale(1) invert(0.9) opacity(0.8);" allowfullscreen="" loading="lazy">
+                </iframe>
+                <div class="p-3 font-mono small">
+                    <p class="mb-1 text-danger fw-bold"><i class="fas fa-map-marker-alt me-2"></i> MERKEZ:</p>
+                    <p class="text-secondary">Stark Tower, 5. Cadde, Manhattan, NY</p>
+                    <p class="mb-1 text-danger fw-bold"><i class="fas fa-phone-alt me-2"></i> ACİL HAT:</p>
+                    <p class="text-secondary">0 (212) MARVEL-00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <section id="groot-rehber" class="container py-5 my-5 border border-danger p-4 rounded groot-terminal"></section>
+        <h2 class="text-danger font-orbitron mb-4 text-center"><i class="fas fa-leaf"></i> GROOT'UN BAKIM GÜNLÜĞÜ</h2>
+        <div class="row g-4">
+            <div class="col-md-4"><div class="diary-item p-3 border border-secondary h-100"><h5 class="text-danger small font-orbitron text-uppercase">IŞIK İHTİYACI</h5><p class="small">Gökkuşağı Köprüsü'nden gelen ışığı sever ama doğrudan Stark reaktörü ışığına maruz bırakmayın.Yarı gölge idealdir.</p></div></div>
+            <div class="col-md-4"><div class="diary-item p-3 border border-secondary h-100"><h5 class="text-danger small font-orbitron text-uppercase">SULAMA</h5><p class="small">Haftada bir kez,tercihen saf su ile. Unutmayın,o "Ben Groot"dese de aslında "Susadım" demek istiyor olabilir.</p></div></div>
+            <div class="col-md-4"><div class="diary-item p-3 border border-secondary h-100"><h5 class="text-danger small font-orbitron text-uppercase">STARK NOTU</h5><p class="small">Gelişimi hızlandırmak için S.H.I.E.L.D. onaylı organik gübrelerimizi kullanmayı unutmayın.</p></div></div>
+            <div class="col-md-4"><div class="diary-item p-3 border border-secondary h-100"><h5 class="text-danger small font-orbitron text-uppercase">TEKNİK VERİLER</h5><ul class="small font-mono list-unstyled"><li>🔋 Enerji: Solar Entegre</li><li>🛡️ Zırh: Karbon Fiber</li></ul></div></div>
+            <div class="col-md-4"><div class="diary-item p-3 border border-secondary h-100"><h5 class="text-danger small font-orbitron text-uppercase">BÜYÜME EVRELERİ</h5><ul class="small font-mono list-unstyled"><li> Bebek Evresi: 0-6 Ay</li><li> Yetişkin Evresi: 5+ Yıl</li></ul></div></div>
+            <div class="col-md-4"><div class="diary-item p-3 border border-secondary h-100"><h5 class="text-danger small font-orbitron text-uppercase">DUYGUSAL SPEKTRUM</h5><p class="small font-mono list-unstyled">Groot,çevresindeki kişilerin duygularına tepki verir.Ortamda Avengers müziği çalması,fotosentez hızını %15 artırır.</p></div></div>
+            <div class="col-md-4"><div class="diary-item p-3 border border-secondary h-100"><h5 class="text-danger small font-orbitron text-uppercase">STARK SENSÖR DESTEĞİ</h5><p class="small font-mono list-unstyled">Tüm saksılarımız,nem oranını anlık olarak S.H.I.E.L.D.Ana Bilgisayarı'na ileten mikro-vibrasyon sensörleriyle donatılmıştır.</p></div></div>
+            <div class="col-md-4"><div class="diary-item p-3 border border-secondary h-100"><h5 class="text-danger small font-orbitron text-uppercase">GÖREV GEÇMİŞİ</h5><p class="small font-mono list-unstyled">Bu fidanlar,Galaksi Koruyucuları'nın orijinal Groot'undan alınan genetik mirasla Stark laboratuvarlarında çoğaltılımıştır.</p></div></div>
+            <div class="col-md-4"><div class="diary-item p-3 border border-secondary h-100"><h5 class="text-danger small font-orbitron text-uppercase">GÜVENLİK PROTOKOLÜ:</h5><p class="small font-mono list-unstyled">Eğer fidanınız durduk yere "ı am Groot" yerine farklı kelimeler söylemeye başlarsa,derhal en yakın Stark Industries şubesine başvurun.Bir illüzyon büyüsü etkisi altında kalmış olabilir.</p></div></div>
+       
+        </div>
+        <div class="groot-translator mt-4 p-3 border-start border-danger bg-black">
+            <h5 class="font-orbitron text-danger small">GROOT-TÜRKÇE SÖZLÜK</h5>
+            <table class="table table-dark table-sm small mb-0">
+                <tr><td>"I Am Groot"</td><td>"Bugün enerjik hissediyorum."</td></tr>
+                <tr><td>"I AM GROOT!"</td><td>"Acilen güneş ışığı gerek!"</td></tr>
+                <tr><td>"ı...am...Groot..."</td><td>"Sanırım uykum geldi."</td></tr>
+        </div>
+    </section>
+        
+    <div class="offcanvas offcanvas-end bg-black text-white border-start border-danger" tabindex="-1" id="cart-side-panel" aria-labelledby="cartLabel">
+        <div class="offcanvas-header border-bottom border-danger">
+            <h5 class="offcanvas-title font-orbitron text-danger" id="cartLabel">S.H.I.E.L.D. ENVANTER</h5>
+            <button type="button" class="btn-close btn-close-white" onclick="toggleCartPanel()" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body d-flex flex-column font-mono small">
+            <div id="cart-items-list" class="flex-grow-1 overflow-auto font-mono small pe-2 text-white">
+                <p class="text-secondary small">Envanter taranıyor...</p>
+            </div>
+            
+            <div class="mt-auto pt-3 border-top border-secondary">
+                <div class="d-flex justify-content-between h6 mb-3 font-orbitron">
+                    <span>TOPLAM:</span> <span id="panel-price">0 ₺</span>
+                </div>
+                <button class="btn btn-success w-100 mb-2 fw-bold" onclick="checkout()">ALIŞVERİŞİ TAMAMLA</button>
+                <button class="btn btn-outline-secondary btn-sm w-100" onclick="clearCart()">ENVANTERİ SIFIRLA</button>
+            </div>
+        </div>
+    </div>
+    <div class="offcanvas offcanvas-start bg-black text-white border-end border-danger" 
+     tabindex="-1" 
+     id="shieldSidebar" >
+    <div class="offcanvas-header border-bottom border-danger">
+        <h5 class="offcanvas-title font-orbitron text-danger">ERİŞİM PANELİ</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body font-mono">
+        <ul class="list-unstyled">
+            <li class="mb-3">
+                <a href="#ana-sayfa" class="text-decoration-none text-white hover-red d-block p-2 border-bottom border-secondary">
+                    <i class="fas fa-home me-2"></i> ANA KARARGAH
+                </a>
+            </li>
+            <li class="mb-3">
+                <a href="#inventory" class="text-decoration-none text-white hover-red d-block p-2 border-bottom border-secondary">
+                    <i class="fas fa-microchip me-2"></i> ENVANTER TARA
+                </a>
+            </li>
+
+            <li class="mb-3">
+                <a href="#groot-rehber" class="text-decoration-none text-white hover-red d-block p-2 border-bottom border-secondary">
+                    <i class="fas fa-seedling me-2"></i> GROOT GÜNLÜĞÜ
+                </a>
+            </li>
+            <li class="mb-3">
+                <a href="#reviews" class="text-decoration-none text-white hover-red d-block p-2 border-bottom border-secondary">
+                     <i class="fas fa-star me-2"></i> AJAN YORUMLARI
+                 </a>
+            </li>
+            <li class="mb-3">
+                <a href="#contact" class="text-decoration-none text-white hover-red d-block p-2 border-bottom border-secondary">
+                     <i class="fas fa-satellite-dish me-2"></i> SİNYAL GÖNDER (İLETİŞİM)
+                 </a>
+            </li>
+            <li class="mb-4">
+                <div class="small text-secondary mb-2">SİSTEM DURUMU</div>
+                <div class="p-2 bg-dark rounded" style="font-size: 12px;">
+                    <div>HAVA: 22°C (STARK TOWER)</div>
+                    <div>GÜVENLİK: SEVİYE 7</div>
+                </div>
+            </li>
+        </ul>
+        
+        <button class="btn btn-outline-info btn-sm w-100 mt-auto font-orbitron" onclick="toggleMode()">
+            PROTOKOL DEĞİŞTİR
+        </button>
+    </div>
+</div>
+    <div id="mission-logs" class="position-fixed bottom-0 start-0 p-3 Bildirim-Alani" style="z-index: 11000; width: 300px;"></div>
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content bg-black border border-danger stark-card shadow-lg">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title font-orbitron text-danger">
+                    <i class="fas fa-fingerprint me-2"></i> KİMLİK DOĞRULAMA
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+           <div class="modal-body p-4">
+    <form id="login-form">
+        <div class="mb-3">
+            <label class="font-mono small text-secondary">AJAN KODU (USERNAME)</label>
+            <div class="input-group">
+                <span class="input-group-text bg-transparent border-secondary text-danger"><i class="fas fa-id-badge"></i></span>
+                <input type="text" id="username" class="form-control bg-transparent text-white border-secondary shadow-none font-mono" placeholder="agentName">
+            </div>
+        </div>
+        <div class="mb-4">
+            <label class="font-mono small text-secondary">ERİŞİM ŞİFRESİ (ENCRYPTED_KEY)</label>
+            <div class="input-group">
+                <span class="input-group-text bg-transparent border-secondary text-danger"><i class="fas fa-key"></i></span>
+                <input type="password" id="password" class="form-control bg-transparent text-white border-secondary shadow-none font-mono" placeholder="********">
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-danger " onclick="handleLogin()">
+                GİRİŞ YAP
+            </button>
+            <div class="mt-4 text-center">
+    <p class="font-mono text-secondary" style="font-size: 0.6rem;">
+        UYARI: İZİNSİZ ERİŞİM GİRİŞİMLERİ S.H.I.E.L.D. TARAFINDAN İZLENMEKTEDİR. <br>
+        DÜNYA DIŞI VARLIKLARIN KAYIT OLMASI YASAKTIR.
+    </p>
+</div>
+            <button type="button" class="btn btn-outline-warning " onclick="handleRegister()">
+                KAYIT OL
+            </button>
+            <div class="mt-4 text-center">
+    <p class="font-mono text-secondary" style="font-size: 0.6rem;">
+        UYARI: İZİNSİZ ERİŞİM GİRİŞİMLERİ S.H.I.E.L.D. TARAFINDAN İZLENMEKTEDİR. <br>
+        DÜNYA DIŞI VARLIKLARIN KAYIT OLMASI YASAKTIR.
+    </p>
+</div>
+        </div>
+        <!-- ANA SAYFA: BAKIM KİTİ ÖN İZLEME (VİTRİN) -->
+<div class="mt-4 pt-3 border-top border-secondary">
+    <p class="font-mono text-secondary mb-2" style="font-size: 0.65rem; letter-spacing: 1px;">
+        <i class="fas fa-lock me-1"></i> YALNIZCA ÜST DÜZEY AJAN ERİŞİMİ
+    </p>
+    <div class="d-flex justify-content-around bg-dark p-2 rounded" style="--bs-bg-opacity: .4;">
+        <div class="text-center opacity-50" onclick="alert('ERİŞİM ENGELLENDİ: Bu kiti incelemek için giriş yapmalısınız.')" style="cursor: help;">
+            <i class="fas fa-vial text-success d-block mb-1"></i>
+            <span style="font-size: 0.6rem;" class="font-mono">VITA-RAY</span>
+        </div>
+        <div class="text-center opacity-50" onclick="alert('ERİŞİM ENGELLENDİ: Bu kiti incelemek için giriş yapmalısınız.')" style="cursor: help;">
+            <i class="fas fa-bolt text-warning d-block mb-1"></i>
+            <span style="font-size: 0.6rem;" class="font-mono">MJOLNIR</span>
+        </div>
+        <div class="text-center opacity-50" onclick="alert('ERİŞİM ENGELLENDİ: Bu kiti incelemek için giriş yapmalısınız.')" style="cursor: help;">
+            <i class="fas fa-cube text-info d-block mb-1"></i>
+            <span style="font-size: 0.6rem;" class="font-mono">TESSERACT</span>
+        </div>
+    </div>
+</div>
+    </form>
+    <div class="social-access-layer mt-4 text-center">
+    <p class="font-mono small text-secondary mb-2" style="font-size: 0.7rem; letter-spacing: 2px;">SOSYAL ERİŞİM KANALLARI</p>
+    <div class="d-flex justify-content-center gap-4">
+        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+    </div>
+</div>
+</div>
+    
+        <div class="mt-4 p-3 border border-info rounded bg-dark" style="--bs-bg-opacity: .5;">
+    <h6 class="text-info font-orbitron small"><i class="fas fa-microchip me-2"></i>BOTANİK TECH: BAKIM KİTİ V1</h6>
+    <p style="font-size: 0.7rem;" class="text-secondary mb-2">
+        S.H.I.E.L.D. onaylı Vita-Ray serumu ve Mjolnir nem sensörü içerir.
+    </p>
+    <div class="d-flex justify-content-between text-info" style="font-size: 0.8rem;">
+        <span><i class="fas fa-check-circle"></i> Stokta</span>
+        <span class="text-warning">Sadece Ajanlara Özel</span>
+    </div>
+</div>
+                    <div class="text-center">
+                        <a href="#" class="text-secondary small font-mono text-decoration-none hover-red">Şifremi Unuttum (Jarvis'e Sor)</a>
+                    </div>
+            </div>
+            <div class="modal-footer border-secondary justify-content-center">
+                <p class="x-small text-secondary font-mono mb-0 text-center uppercase">
+                    UYARI: Yetkisiz erişim teşebbüsleri Stark Industries tarafından takip edilmektedir.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
