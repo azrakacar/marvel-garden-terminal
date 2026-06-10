@@ -1,49 +1,65 @@
-# 🦅 S.H.I.E.L.D. | Ana Karargah İnteraktif Kontrol Paneli
+# 🦅 Marvel Garden Terminal
 
-Marvel Evreni'nden ve fütüristik cyberpunk estetiğinden ilham alınarak tasarlanmış, tamamen etkileşimli bir web tabanlı operasyon paneli arayüzüdür. Bu proje; dinamik durum simülasyonları, yapay zeka entegrasyonu (J.A.R.V.I.S.) ve taktiksel müdahale senaryolarını tek bir ekranda bir araya getirir.
+Marvel Evreni'nden, fütüristik askeri üs arayüzlerinden (HUD) ve cyberpunk estetiğinden ilham alınarak tasarlanmış; bünyesinde gelişmiş bir **Biyoteknoloji Laboratuvarı (Egzotik/İlginç Ağaç Departmanı)**, taktiksel radar ve akıllı asistan barındıran **web tabanlı bir ön yüz (Front-End) simülasyon yazılımıdır.**
 
-## 🚀 Öne Çıkan Özellikler
+Bu proje; Bootstrap grid sistemi, asenkron süreçler, özel CSS efektleri ve JavaScript tabanlı dinamik algoritmaların bir arada nasıl hibrit çalışabileceğini gösteren bir portföy/akademik çalışmadır.
 
-*   **J.A.R.V.I.S. V3.0 Entegre Komut Sistemi:** Kullanıcıdan gelen komutları (örn: görev, stark, tehlike, alarm) analiz ederek anlık geri bildirim veren ve acil durumlarda karargah protokollerini devreye sokan akıllı asistan.
-*   **Stratejik Koordinat Tarayıcı (Radar):** Canlı tarama efektiyle alanı tarayan, potansiyel tehditleri (HYDRA sinyalleri) tespit eden ve harita üzerinde görselleştiren radar modülü.
-*   **Taktiksel Müdahale Ünitesi:** Tehdit algılandığında otonom İHA/İHA hazırlık sürecini başlatan ve kilitlenme tamamlandığında müdahale emri vermenizi sağlayan dinamik kontrol paneli.
-*   **Stratejik Analiz Motoru (A.I.):** Tehdit seviyesi slider'ı ve Yenilmezler destek durumuna göre operasyonun başarı olasılığını anlık olarak hesaplayan ve arayüz rengini dinamik olarak değiştiren algoritma.
-*   **Quinjet Lojistik Canlı Takip:** Wakanda'dan karargaha doğru yola çıkan S.B.B.K. Ünitelerinin (Bakım Kitleri) ilerleme durumunu ve tahmini varış süresini (ETA) gösteren zamanlayıcı.
-*   **Gizli Dosyalar & Veritabanı:** Bootstrap modal entegrasyonu ile şifrelenmiş S.H.I.E.L.D. dosyalarına (Avengers Protokolü, Tesseract Raporu vb.) erişim paneli.
-*   **Siber Estetik Tasarım:** Scanline (tarama çizgisi) efektleri, yanıp sönen uyarı ışıkları, neon HUD renkleri ve tamamen duyarlı (responsive) Bootstrap yapısı.
+---
 
-*   ## 🛠️ Kullanılan Teknolojiler
+## 🌐 Canlı Web Sitesi Linki
 
-*   **Arayüz Tasarımı:** HTML5, CSS3, Bootstrap 5.3
-*   **İkon Kütüphanesi:** Font Awesome 6.0
-*   **Yazı Tipleri:** Google Fonts (Orbitron & Courier New)
-*   **Programlama Dili:** Pure JavaScript (Vanilla JS)
+Proje, GitHub Pages altyapısı kullanılarak tüm dünyanın erişimine açık şekilde canlıya alınmıştır:
+🔗 [https://azrakacar.github.io/shield-hq-panel/](https://azrakacar.github.io/shield-hq-panel/)
 
-*   ## 📂 Dosya Yapısı
+---
 
+## 🚀 Öne Çıkan Modüller ve Özellikler
 
-├── index.html          # Tüm HTML yapısı, CSS stilleri ve JavaScript lojikleri
-└── README.md           # Proje dokümantasyonu
+### 1. 🧪 Biyoteknoloji Departmanı (Egzotik Ağaç Envanteri)
+* **Açıklama:** S.H.I.E.L.D. üslerinin oksijen filtrasyonu, gizli sığınakların kamufle edilmesi veya vibranyum topraklarının ıslahı için laboratuvarda üretilen mutasyonlu/ilginç ağaçların sergilendiği ve envantere eklendiği ana bölümdür.
+* **Teknik Altyapı:** **Bootstrap Card** yapıları neon matrix yeşili gölge efektleriyle (`box-shadow: 0 0 15px rgba(57, 255, 20, 0.3)`) holografik hale getirilmiştir. Görseller, laboratuvar ortamı hissi verilmesi için CSS `filter: hue-rotate()` ve `brightness()` özellikleri ile manipüle edilerek bitkilere mutasyonlu bir hava katılmıştır. `transition` ile hover durumunda mikroskop odaklanma efekti sağlanmıştır.
 
- ##  💻  Kurulum ve Çalıştırma
+### 2. 📡 Stratejik Koordinat Tarayıcı (Taktiksel Radar)
+* **Açıklama:** Canlı tarama efektiyle alanı tarayan ve potansiyel düşman (HYDRA) sinyallerini tespit eden modül.
+* **Teknik Altyapı:** CSS `@keyframes` ile merkez noktası etrafında dönen holografik bir daire tasarlandı. JavaScript asenkron `setTimeout` yapısıyla buton tetiklendikten 3 saniye sonra tehdit algılama simülasyonu başlatılır.
 
-Proje herhangi bir harici bağımlılık, sunucu veya derleme adımı gerektirmez. Doğrudan tarayıcı üzerinde çalıştırılabilir:
+### 3. 🧮 Stratejik Analiz Motoru (Yapay Zekâ Algoritması)
+* **Açıklama:** Operasyonun başarı olasılığını anlık olarak hesaplayan karar mekanizması.
+* **Teknik Altyapı:** Kullanıcının girdi olarak verdiği Tehdit Seviyesi (Slider) ve Yenilmezler'in destek durumunu (Checkbox) alan matematiksel bir fonksiyon kurgulanmıştır. Başarı oranı kritik seviyeye düştüğünde arayüz rengi JavaScript DOM manipülasyonu ile anlık olarak tehlike kırmızısına dönüşür.
 
-1 Bu depoyu bilgisayarınıza indirin veya klonlayın:
+### 4. 💬 J.A.R.V.I.S. V3.0 Protokolü (Sohbet Robotu)
+* **Açıklama:** Kullanıcıyla etkileşime giren yarı-akıllı ana karargah asistanı.
+* **Teknik Altyapı:** JavaScript string metotları (`includes()`) kullanılarak kullanıcının yazdığı kelimeler filtrelenir; "stark", "görev", "tehlike", "biyoloji", "ağaç" gibi kritik kelimelere fütüristik ve dinamik yanıtlar üretilir.
+
+### 5. 📟 Sistem Komuta Terminali (Canlı Log Akışı)
+* **Açıklama:** Sitede yapılan tüm işlemlerin (radar taraması, egzotik ağaç envanter alımları, Jarvis konuşmaları) askeri bir günlük formatında aktığı merkezdir.
+* **Teknik Altyapı:** `setInterval` ile sürekli arka plan kontrolleri basılır. Yeni bir ağaç satın alındığında JavaScript `appendChild` ile terminal kutusunun içine dinamik satırlar eklenir. `overflow-y: auto` stili sayesinde taşmalar engellenir ve kaydırılabilir bir konsol elde edilir.
+
+---
+
+## 🛠️ Kullanılan Teknolojiler
+
+* **İskelet ve Yapı:** HTML5
+* **CSS Çatısı & Grid Sistemi:** Bootstrap 5.3 *(Modüler kartlar, form girdileri, butonlar ve tam responsive/esnek ekran uyumluluğu için)*
+* **Özel Grafik & Efektler:** Custom CSS3 *(Ekranı kaplayan scanline tarama çizgileri, neon parlama efektleri, fütüristik Orbitron ve Courier New yazı tipleri)*
+* **Mantık ve Dinamik Motor:** Pure JavaScript (Vanilla JS) *(Asenkron zamanlayıcılar, matematiksel algoritmalar, string analiz yöntemleri ve DOM yönetimi)*
+
+---
+
+## 📂 Dosya Yapısı
+
+```text
+├── index.html          # Tüm mimariyi, CSS stillerini ve JS algoritmalarını içeren ana dosya
+└── README.md           # Proje dokümantasyonu ve sunum raporu
+
+ 💻 Kurulum ve Çalıştırma
+Proje tamamen tarayıcı üzerinde (Client-Side) çalıştığı için herhangi bir sunucu kurulumu veya derleme işlemi gerektirmez.
+
+1-Depoyu klonlayın:
+
 git clone [https://github.com/azrakacar/shield-hq-panel.git](https://github.com/azrakacar/shield-hq-panel.git)
 
-2 Proje klasörüne gidin.
+2-Klasör içerisindeki index.html dosyasına çift tıklayarak herhangi bir modern tarayıcıda doğrudan çalıştırabilirsiniz.
 
-3 index.html dosyasını herhangi bir modern web tarayıcısında (Chrome, Edge, Firefox, Safari) çift tıklayarak açın.
-
-## 🕹️ Nasıl Deneyimlenir?
-1-Sistem Loglarını İnceleyin: Sağ üst köşedeki terminal kutusundan sistemin canlı durum raporlarını takip edin.
-
-2-Alan Taraması Yapın: "Stratejik Koordinat Tarayıcı" panelindeki Alanı Tara butonuna basın. 3 saniye sonra HYDRA sinyali algılanacak, haritada kırmızı nokta belirecek ve taktiksel müdahale paneli aktifleşecektir.
-
-3-Jarvis ile Konuşun: Sağ alttaki bota stark, görev, vibranyum veya alarm yazarak interaktif yanıtları tetikleyin.
-
-4-Simülasyonu Değiştirin: "Stratejik Analiz Motoru" kısmındaki tehdit seviyesini değiştirerek başarı olasılığının dinamik olarak nasıl hesaplandığını ve Jarvis'in yorumlarını görün.
-
-## 📜 Lisans
-Bu proje eğitim ve portföy amacıyla geliştirilmiştir. Marvel, Avengers, Iron Man ve ilgili tüm karakterlerin hakları Marvel Characters, Inc. şirketine aittir.
+ 📜 Lisans ve Teşekkür
+Bu proje, ön yüz geliştirme, Bootstrap entegrasyonu ve JavaScript DOM manipülasyonu yeteneklerini sergilemek amacıyla üretilmiş akademik/portföy tabanlı bir simülasyon çalışmasıdır. Marvel, Avengers ve ilgili tüm karakterlerin hakları Marvel Characters, Inc. şirketine aittir.
