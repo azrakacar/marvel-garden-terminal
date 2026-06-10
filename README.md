@@ -9,7 +9,7 @@ Bu proje; Bootstrap grid sistemi, asenkron süreçler, özel CSS efektleri ve Ja
 ## 🌐 Canlı Web Sitesi Linki
 
 Proje, GitHub Pages altyapısı kullanılarak tüm dünyanın erişimine açık şekilde canlıya alınmıştır:
-🔗 [https://azrakacar.github.io/shield-hq-panel/](https://azrakacar.github.io/shield-hq-panel/)
+🔗 [https://azrakacar.github.io/marvel-garden-terminal/](https://azrakacar.github.io/marvel-garden-terminal/)
 
 ---
 
